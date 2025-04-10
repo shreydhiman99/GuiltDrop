@@ -13,7 +13,7 @@ export default async function FrontLayout({
     const {data} = await (await supabase).auth.getSession()
     return (
       <div className="p-2 md:container relative h-screen">
-        <MobileApp />
+        <MobileApp user={data.session?.user!} />
         <AppNav user={data.session?.user!}/>
         <div className="flex flex-col items-center h-full">
         <div className="w-full lg:w-2/5">{children}</div>
