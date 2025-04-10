@@ -5,12 +5,18 @@ type PostPayloadType = {
 };
 
 type PostType = {
+    post_id: number;
+    user_id: string;
     content:string;
     image?:string;
-    created_at:string;
+    name:string;
+    username:string;
+    email:string;
+    profile_image:string;
     reply_count:number;
     likes_count:number;
-    users: any;
+    created_at:string;
+    liked:boolean;
 };
 
 type UserType = {

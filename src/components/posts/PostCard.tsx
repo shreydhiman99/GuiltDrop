@@ -3,20 +3,21 @@ import UserAvatar from '../common/UserAvatar'
 import { Bookmark, HeartIcon, MessageCircle, MoreVertical, Send } from 'lucide-react'
 import Image from 'next/image'
 import { formatDate, getS3Url } from '@/lib/healper'
+import PostLike from './PostLike'
 
-export default function PostCard({ post }: { post: PostType }) {
+export default function PostCard({ post, userId }: { post: PostType; userId: string }) {
   return (
     <div className='w-full bg-gradient-to-b from-gray-100 to-gray-200 mt-4 rounded-2xl p-4 shadow-lg'>
       {/* Header */}
       <div className='flex justify-between items-center mb-4'>
         <div className='flex space-x-2'>
           <UserAvatar
-            name={post.users?.username}
-            image={post.users?.profile_image ? getS3Url(post.users?.profile_image) : ""}
+            name={post.name}
+            image={post.profile_image ? getS3Url(post.profile_image) : ""}
           />
           <div>
             <div className='flex flex-col'>
-              <p className='font-bold text-gray-800'>{post.users?.username}</p>
+              <p className='font-bold text-gray-800'>{post.username}</p>
               <p className='text-sm text-gray-500'>{formatDate(post.created_at)}</p>
             </div>
           </div>
@@ -44,7 +45,7 @@ export default function PostCard({ post }: { post: PostType }) {
       {/* Footer and icon bar */}
       <div className='flex justify-between items-center mt-4'>
         <div className='flex space-x-4'>
-          <HeartIcon className='text-gray-500 hover:text-red-500 cursor-pointer' />
+         <PostLike userId={userId} post={post}/>
           <MessageCircle className='text-gray-500 hover:text-blue-500 cursor-pointer' />
           <Send className='text-gray-500 hover:text-green-500 cursor-pointer' />
         </div>
@@ -52,8 +53,8 @@ export default function PostCard({ post }: { post: PostType }) {
       </div>
 
       <div className='flex space-x-4 p-2 text-gray-600'>
-        <p>likes {post.likes_count}</p>
-        <p>replies {post.reply_count}</p>
+        {/* <p>likes {post.likes_count}</p>
+        <p>replies {post.reply_count}</p> */}
       </div>
     </div>
   )
