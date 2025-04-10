@@ -7,7 +7,7 @@ import PostCard from '@/components/posts/PostCard';
 export default async function App() {
   const supabase = await createClient();
   const { data } = await supabase.auth.getSession();
-  const { data:posts, error } = await supabase.from("posts").select("id, content, image, reply_count, likes_count, created_at, users(id, name, username, profile_image)")
+  const { data:posts, error } = await supabase.from("posts").select("id, content, image, reply_count, likes_count, created_at, users(id, name, username, profile_image)").order("created_at", { ascending: false })
 
   console.log("Posts", posts)
   console.log("Error", error)
