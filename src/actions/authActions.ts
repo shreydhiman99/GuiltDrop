@@ -6,7 +6,7 @@ import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
 
 export async function registerAction(prevSate: any, formdata: FormData) {
-    const supabase = createClient(cookies())
+    const supabase = createClient()
     try {
         console.log("The data is ", formdata);
         const data = {
@@ -75,7 +75,7 @@ export async function registerAction(prevSate: any, formdata: FormData) {
 }
 
 export async function loginAction(prevSate: any, formdata: FormData) {
-    const supabase = createClient(cookies())
+    const supabase = createClient()
     try {
         const data = {
             email: formdata.get("email"),

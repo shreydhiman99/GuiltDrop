@@ -26,7 +26,7 @@ import { useRouter } from "next/navigation" // Updated import
 
 export function SettingDropdown() {
   const [open, setOpen] = useState(false)
-  const supabase = createClient()
+  const supabase = createClient(undefined) // Pass 'undefined' or the appropriate request object
   const router = useRouter() // Updated to use next/navigation
   const [loading, setLoading] = useState(false)
 

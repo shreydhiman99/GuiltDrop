@@ -9,7 +9,7 @@ export default async function FrontLayout({
     children: React.ReactNode;
   }>) {
 
-    const supabase = createClient(cookies())
+    const supabase = createClient()
     const {data} = await (await supabase).auth.getSession()
     return (
       <div className="p-2 md:container relative h-screen">

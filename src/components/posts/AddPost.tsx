@@ -24,7 +24,7 @@ export default function AddPost({ user, children }: { user: User, children: Reac
     const imageRef = useRef<HTMLInputElement | null>(null)
     const [content, setContent] = useState("")
     const [loading, setLoading] = useState(false)
-    const supabase = createClient()
+    const supabase = createClient(undefined)
     const handleImageIcon = () => {
         imageRef.current?.click()
     }
