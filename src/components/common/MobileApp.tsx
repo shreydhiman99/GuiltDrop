@@ -13,7 +13,7 @@ export default function MobileApp() {
 
 
             </nav>
-            <button className='absolute bottom-2 right-2 bg-primary h-12 w-14 rounded-full flex justify-center items-center text-white'>
+            <button className='fixed bottom-2 right-2 bg-primary h-12 w-14 rounded-full flex justify-center items-center text-white'>
                 <Plus />
             </button>
         </div>
