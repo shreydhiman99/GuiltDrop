@@ -4,7 +4,7 @@ import { cookies } from 'next/headers';
 
 export async function middleware(request:NextRequest) {
     // const cookieStore = await cookies()
-    const supabase = createClient(cookies())
+    const supabase = createClient()
     const {data} = await (await supabase).auth.getUser()
 
     if (data.user === null) {
