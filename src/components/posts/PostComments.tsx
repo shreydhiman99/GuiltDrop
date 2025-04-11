@@ -24,7 +24,7 @@ export default function PostComments({
   const [newComment, setNewComment] = useState('') // New comment input
   const [loading, setLoading] = useState(false) // Loading state for comment submission
   const [comments, setComments] = useState<CommentType[]>([]) // List of comments
-  const supabase = createClient()
+  const supabase = createClient(undefined)
 
   // Fetch comments for the post
   const fetchComments = async () => {

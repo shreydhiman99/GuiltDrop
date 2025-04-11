@@ -6,7 +6,7 @@ import { createClient } from '@/lib/supabase/supabaseClient'
 export default function ShowComments({ postId }: { postId: number }) {
   const [comments, setComments] = useState<CommentType[]>([])
   const [loading, setLoading] = useState(true)
-  const supabase = createClient()
+  const supabase = createClient(undefined)
 
   // Fetch comments for the post
   useEffect(() => {
