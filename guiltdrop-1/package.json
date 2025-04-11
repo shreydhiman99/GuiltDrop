@@ -1,0 +1,27 @@
+{
+  "name": "guiltdrop",
+  "version": "1.0.0",
+  "description": "A project for managing and displaying user comments on posts.",
+  "main": "index.js",
+  "scripts": {
+    "start": "next dev",
+    "build": "next build",
+    "start:prod": "next start",
+    "lint": "eslint .",
+    "test": "jest"
+  },
+  "dependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "lucide-react": "^0.1.0",
+    "@supabase/supabase-js": "^1.28.0"
+  },
+  "devDependencies": {
+    "typescript": "^4.4.3",
+    "eslint": "^7.32.0",
+    "jest": "^27.0.6"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
