@@ -74,10 +74,10 @@ export default function PostCard({ post, userId }: { post: PostType; userId: str
         </div>
 
         {/* Dropdown Button to Show/Hide Comments */}
-        <div className="mt-4">
+        <div className="relative mt-4">
           <button
             onClick={() => setShowComments((prev) => !prev)}
-            className="flex items-center text-blue-500 hover:text-blue-600 font-semibold"
+            className="flex items-center text-blue-500 hover:text-blue-600 font-semibold relative z-10"
           >
             {showComments ? (
               <>
@@ -91,7 +91,11 @@ export default function PostCard({ post, userId }: { post: PostType; userId: str
           </button>
 
           {/* ShowComments Component */}
-          {showComments && <ShowComments postId={post.post_id} />}
+          {showComments && (
+            <div className="relative z-0">
+              <ShowComments postId={post.post_id} />
+            </div>
+          )}
         </div>
       </div>
     </div>

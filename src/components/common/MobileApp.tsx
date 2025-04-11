@@ -21,12 +21,11 @@ export default function MobileApp({user}:{user:SupabaseUser}) {
 
 
             </nav>
-            <button className='fixed bottom-2 right-2 bg-primary h-12 w-14 rounded-full flex justify-center items-center text-white cursor-pointer shadow-lg hover:bg-primary/80 transition duration-300 ease-in-out'> 
-                
-                 <AddPost user={user} children={<Plus size={30}/>}/>
-                
-           </button>
-           
+            <button
+                className="fixed bottom-4 right-4 bg-primary h-10 w-10 rounded-full flex justify-center items-center text-white cursor-pointer shadow-lg hover:bg-primary/80 transition duration-300 ease-in-out z-50"
+            >
+                <AddPost user={user} children={<Plus size={30} />} />
+            </button>
         </div>
     )
 }
