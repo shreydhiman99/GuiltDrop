@@ -5,7 +5,7 @@ type PostPayloadType = {
 };
 
 type PostType = {
-    comments: never[];
+    comments: CommentType[]; // Array of comments associated with the post
     post_id: number;
     user_id: string;
     content: string;

@@ -25,21 +25,24 @@ export default function ShowComments({ postId }: { postId: number }) {
             profile_image
           )
         `)
-        .eq('post_id', postId)
+        .eq('post_id', postId) // Ensure postId is a valid number
         .order('created_at', { ascending: true })
 
       if (error) {
         console.error('Error fetching comments:', error.message)
       } else {
-        const formattedComments = data.map((comment) => ({
-          id: comment.id,
-          content: comment.content,
-          created_at: comment.created_at,
-          user_id: comment.user_id,
-          post_id: comment.post_id,
-          username: comment.users?.username || 'Unknown User',
-          profile_image: comment.users?.profile_image || '',
-        }))
+        const formattedComments = data.map((comment) => {
+            const user = comment.users as { username?: string; profile_image?: string } | null;
+            return {
+              id: comment.id,
+              content: comment.content,
+              created_at: comment.created_at,
+              user_id: comment.user_id,
+              post_id: comment.post_id,
+              username: user?.username || 'Unknown User',
+              profile_image: user?.profile_image || '',
+            };
+        });
         setComments(formattedComments)
       }
       setLoading(false)
