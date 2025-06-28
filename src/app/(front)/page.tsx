@@ -17,10 +17,17 @@ export default async function App() {
   }
 
   return (
-    <div>
-      {posts && posts.length > 0 && posts.map((post: PostType) => (
-        <PostCard post={post} userId={data.session?.user.id || ''} key={post.post_id} />
-      ))}
+    <div className="w-full pt-4 pb-24 md:pb-8 px-2 md:px-4 overflow-y-auto space-y-6">
+      {posts && posts.length > 0 ? (
+        posts.map((post: PostType) => (
+          <PostCard post={post} userId={data.session?.user.id || ''} key={post.post_id} />
+        ))
+      ) : (
+        <div className="flex flex-col items-center justify-center p-8 bg-gray-50 rounded-lg text-center">
+          <p className="text-lg text-gray-600 mb-2">No posts yet</p>
+          <p className="text-sm text-gray-500">Be the first to share something!</p>
+        </div>
+      )}
     </div>
   )
 }

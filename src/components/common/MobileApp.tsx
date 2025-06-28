@@ -1,58 +1,68 @@
 "use client"
-import { MenuIcon, Plus, Settings } from 'lucide-react'
+import { HomeIcon, MenuIcon, Plus, Search, Bell, User } from 'lucide-react'
 import Image from 'next/image'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import React from 'react'
 import AddPost from '../posts/AddPost'
-import {User as SupabaseUser} from "@supabase/supabase-js"
+import { User as SupabaseUser } from "@supabase/supabase-js"
 import { SettingDropdown } from './SettingDropdown'
 
 export default function MobileApp({user}:{user:SupabaseUser}) {
     if (!user) {
         console.error("User is undefined in MobileApp");
-        return null; // Render nothing if user is not available
+        return null;
     }
+    
+    const pathName = usePathname();
+    
     return (
         <div className='md:hidden'>
-            <nav className='flex justify-between items-center p-2'>
-                <MenuIcon size={30} />
-                <Image src="/images/logo_5121.png" alt="logo" width={40} height={40} />
+            {/* Top navigation */}
+            <nav className='flex justify-between items-center p-3 border-b'>
+                <MenuIcon size={26} className="text-gray-600" />
+                <Image src="/images/logo_512.png" alt="logo" width={40} height={40} />
                 <SettingDropdown />
-                {/* <Settings size={30} /> */}
-
-
             </nav>
-            <button
-                className="fixed bottom-4 right-4 bg-primary h-10 w-10 rounded-full flex justify-center items-center text-white cursor-pointer shadow-lg hover:bg-primary/80 transition duration-300 ease-in-out z-50"
-            >
-                <AddPost user={user} children={<Plus size={30} />} />
-            </button>
+            
+            {/* Floating action button for adding post */}
+            <div className="fixed bottom-20 right-4 z-50">
+                <AddPost 
+                    user={user} 
+                    children={
+                        <div className="bg-primary h-14 w-14 rounded-full flex justify-center items-center text-white shadow-lg hover:bg-primary/90 transition">
+                            <Plus size={30} />
+                        </div>
+                    } 
+                />
+            </div>
+            
+            {/* Bottom navigation bar */}
+            <div className="fixed bottom-0 left-0 right-0 bg-background border-t shadow-md z-40">
+                <div className="flex justify-around items-center py-3 px-2">
+                    <Link href="/" className={`flex flex-col items-center ${pathName === "/" ? "text-primary" : "text-gray-500"}`}>
+                        <HomeIcon size={24} />
+                        <span className="text-xs mt-1">Home</span>
+                    </Link>
+                    
+                    <Link href="/Search" className={`flex flex-col items-center ${pathName === "/Search" ? "text-primary" : "text-gray-500"}`}>
+                        <Search size={24} />
+                        <span className="text-xs mt-1">Search</span>
+                    </Link>
+                    
+                    <div className="w-12"></div> {/* Spacer for FAB */}
+                    
+                    <Link href="/Bell" className={`flex flex-col items-center ${pathName === "/Bell" ? "text-primary" : "text-gray-500"}`}>
+                        <Bell size={24} />
+                        <span className="text-xs mt-1">Alerts</span>
+                    </Link>
+                    
+                    <Link href="/User" className={`flex flex-col items-center ${pathName === "/User" ? "text-primary" : "text-gray-500"}`}>
+                        <User size={24} />
+                        <span className="text-xs mt-1">Profile</span>
+                    </Link>
+                </div>
+            </div>
         </div>
     )
 }
-// "use client"
-// import { MenuIcon, Settings } from 'lucide-react'
-// import Image from 'next/image'
-// import React from 'react'
-
-// export default function MobileApp() {
-//     return (
-//         <div className='md:hidden fixed bottom-0 left-0 right-0 bg-white shadow-md z-50'>
-//             <nav className='flex justify-between items-center p-4'>
-//                 {/* Menu Icon */}
-//                 <button className='p-2 rounded-full hover:bg-gray-100'>
-//                     <MenuIcon size={30} />
-//                 </button>
-
-//                 {/* Logo */}
-//                 <div>
-//                     <Image src="/images/logo_512.png" alt="logo" width={40} height={40} />
-//                 </div>
-
-//                 {/* Settings Icon */}
-//                 <button className='p-2 rounded-full hover:bg-gray-100'>
-//                     <Settings size={30} />
-//                 </button>
-//             </nav>
-//         </div>
-//     )
-// }

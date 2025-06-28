@@ -75,30 +75,53 @@ export async function registerAction(prevSate: any, formdata: FormData) {
 }
 
 export async function loginAction(prevSate: any, formdata: FormData) {
-    const supabase = createClient()
+    const supabase = createClient();
     try {
-        const data = {
-            email: formdata.get("email"),
-            password: formdata.get("password")
-        }
-        const payload = await LoginValidator.validate(data)
-        const { error: signUpError } = await (await supabase).auth.signInWithPassword({
-            email: payload.email,
-            password: payload.password
-        })
+        const input = formdata.get("emailOrUsername") as string; // Accept either email or username
+        const password = formdata.get("password") as string;
 
-        if (signUpError) {
+        let email = input;
+
+        // Check if the input is not an email (assume it's a username)
+        if (!input.includes("@")) {
+            const { data: userData, error: userError } = await (await supabase)
+                .from("users")
+                .select("email")
+                .eq("username", input)
+                .single();
+
+            if (userError || !userData) {
+                return {
+                    status: 400,
+                    errors: {
+                        emailOrUsername: "Invalid username or email",
+                    },
+                };
+            }
+
+            email = userData.email; // Retrieve the email associated with the username
+        }
+
+        const data = { email, password };
+        const payload = await LoginValidator.validate(data);
+
+        const { error: signInError } = await (await supabase).auth.signInWithPassword({
+            email: payload.email,
+            password: payload.password,
+        });
+
+        if (signInError) {
             return {
                 status: 400,
                 errors: {
-                    email: signUpError.message
-                }
-            }
+                    emailOrUsername: signInError.message,
+                },
+            };
         }
     } catch (error) {
         if (error instanceof errors.E_VALIDATION_ERROR) {
-            return { status: 400, errors: error.messages }
+            return { status: 400, errors: error.messages };
         }
     }
-    return redirect("/")
+    return redirect("/");
 }
