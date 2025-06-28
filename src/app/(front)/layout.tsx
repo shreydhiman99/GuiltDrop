@@ -2,6 +2,7 @@ import AppNav from "@/components/common/AppNav";
 import MobileApp from "@/components/common/MobileApp";
 import {createClient} from "@/lib/supabase/supabaseServer"
 import {cookies} from "next/headers"
+import NotificationPermission from '@/components/notifications/NotificationPermission'
 
 export default async function FrontLayout({
     children,
@@ -18,8 +19,7 @@ export default async function FrontLayout({
         <div className="flex flex-col items-center h-full">
         <div className="w-full lg:w-2/5">{children}</div>
         </div>
-
+        <NotificationPermission />
       </div>
     );
   }
-  

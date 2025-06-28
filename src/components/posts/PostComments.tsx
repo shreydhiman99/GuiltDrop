@@ -10,6 +10,7 @@ import {
 import { MessageCircle } from 'lucide-react'
 import { createClient } from '@/lib/supabase/supabaseClient'
 import UserAvatar from '../common/UserAvatar'
+import { createNotification, NotificationType } from '@/lib/notifications'
 
 export default function PostComments({
   postId,
@@ -75,6 +76,23 @@ export default function PostComments({
     if (error) {
       console.error('Error adding comment:', error.message)
     } else {
+      // Get post owner id to send notification
+      const { data: postData } = await supabase
+        .from('posts')
+        .select('user_id')
+        .eq('id', postId)
+        .single()
+        
+      if (postData) {
+        // Create notification for post owner
+        await createNotification({
+          userId: userId,
+          toUserId: postData.user_id,
+          postId: postId,
+          type: NotificationType.COMMENT
+        })
+      }
+
       setNewComment('') // Clear input
       setShowDialog(false) // Close dialog
 

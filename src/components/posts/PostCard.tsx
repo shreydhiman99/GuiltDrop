@@ -10,7 +10,16 @@ import PostComments from './PostComments'
 import ShowComments from './ShowComments'
 import ReplyCount from './ReplyCount'
 
-export default function PostCard({ post, userId }: { post: PostType; userId: string }) {
+// Update the component props type definition at the top of your file
+type PostCardProps = {
+  post: PostType;
+  userId: string;
+  isDetailView?: boolean; // Add this optional prop
+  key?: React.Key;
+}
+
+// Then update your component definition
+export default function PostCard({ post, userId, isDetailView = false }: PostCardProps) {
   const [showComments, setShowComments] = useState(false) // State to toggle comments visibility
 
   const handleCommentAdded = () => {
@@ -18,7 +27,7 @@ export default function PostCard({ post, userId }: { post: PostType; userId: str
   }
 
   return (
-    <div className="w-full bg-gradient-to-b from-gray-100 to-gray-200 mt-4 rounded-2xl p-4 shadow-lg">
+    <div className={`w-full bg-gradient-to-b from-gray-100 to-gray-200 mt-4 rounded-2xl p-4 shadow-lg ${isDetailView ? 'border-2 border-primary' : ''}`}>
       {/* Header */}
       <div className="flex justify-between items-center mb-4">
         <div className="flex space-x-2">
@@ -51,6 +60,13 @@ export default function PostCard({ post, userId }: { post: PostType; userId: str
         </div>
       )}
       <p className="p-2 text-gray-700">{post.content}</p>
+
+      {/* If in detail view, you might want to show more content or comments */}
+      {isDetailView && (
+        <div className="p-3 bg-gray-50 border-b">
+          <span className="text-sm text-gray-500">Viewing full post</span>
+        </div>
+      )}
 
       {/* Footer and icon bar */}
       <div className="relative mt-4">

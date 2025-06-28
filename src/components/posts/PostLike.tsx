@@ -2,10 +2,11 @@
 import { HeartIcon } from 'lucide-react'
 import React, { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/supabaseClient'
+import { createNotification, NotificationType } from '@/lib/notifications'
 
 export default function PostLike({ post, userId }: { post: PostType; userId: string }) {
-  const [isLiked, setIsLiked] = useState(post.liked || false) // Use initial like state from post
-  const [likeCount, setLikeCount] = useState(post.likes_count || 0) // Use initial like count
+  const [isLiked, setIsLiked] = useState(post.liked || false)
+  const [likeCount, setLikeCount] = useState(post.likes_count || 0)
   const supabase = createClient(undefined)
 
   const fetchUpdatedLikeCount = async () => {
@@ -75,6 +76,14 @@ export default function PostLike({ post, userId }: { post: PostType; userId: str
       if (incrementError) {
         console.error('Error incrementing like count:', incrementError.message)
       }
+
+      // Create notification for post owner
+      await createNotification({
+        userId: userId,
+        toUserId: post.user_id,
+        postId: post.post_id,
+        type: NotificationType.LIKE
+      })
 
       // Fetch the updated like count
       await fetchUpdatedLikeCount()
