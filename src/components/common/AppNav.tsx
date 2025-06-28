@@ -1,85 +1,48 @@
 "use client"
 import Image from 'next/image'
 import React from 'react'
-import {Bell, HomeIcon, Search, StickyNote, User} from 'lucide-react'
+import {Bell, HomeIcon, Search, Settings, StickyNote, User} from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import AddPost from '../posts/AddPost'
-import {User as SupabaseUser} from "@supabase/supabase-js"
+import { User as SupabaseUser } from "@supabase/supabase-js"
 import { SettingDropdown } from './SettingDropdown'
+import NotificationBadge from '../notifications/NotificationBadge'
 
 export default function AppNav({user}:{user:SupabaseUser}) {
     const pathName = usePathname()
-    
-    return (
-        <nav className='hidden md:flex justify-between items-center p-4 border-b'>
-            <Link href="/" className="flex items-center">
-                <Image 
-                    src="/images/logo_512.png" 
-                    alt="GuiltDrop" 
-                    width={50} 
-                    height={50} 
-                    className="mr-2"
-                />
-            </Link>
+    console.log("The path name is ", pathName);
+  return (
+    <nav className='hidden md:flex justify-between items-center p-4'>
+        <Image src="/images/logo_512.png" alt="logo" width={100} height={100} />
+        
+        <div className='flex space-x-12'>
+            <Link 
+            href="/"
+            className={`cursor-pointer hover:text-foreground ${pathName === "/" ? "text_foreground" : "text-gray-500"}`}> <HomeIcon size={30}/> </Link>
             
-            <div className='flex items-center space-x-10'>
-                <Link 
-                    href="/"
-                    className={`flex flex-col items-center transition-colors duration-200 
-                        ${pathName === "/" 
-                            ? "text-primary font-medium" 
-                            : "text-gray-500 hover:text-gray-800"}`}
-                > 
-                    <HomeIcon size={26}/> 
-                    <span className="text-xs mt-1">Home</span>
-                </Link>
-                
-                <Link 
-                    href="/Search"
-                    className={`flex flex-col items-center transition-colors duration-200 
-                        ${pathName === "/Search" 
-                            ? "text-primary font-medium" 
-                            : "text-gray-500 hover:text-gray-800"}`}
-                > 
-                    <Search size={26}/> 
-                    <span className="text-xs mt-1">Search</span>
-                </Link>
-                
-                <AddPost 
-                    user={user} 
-                    children={
-                        <div className="flex flex-col items-center cursor-pointer transition-colors duration-200 text-gray-500 hover:text-gray-800">
-                            <StickyNote size={26}/>
-                            <span className="text-xs mt-1">Post</span>
-                        </div>
-                    }
-                />
-                
-                <Link 
-                    href="/Bell"
-                    className={`flex flex-col items-center transition-colors duration-200 
-                        ${pathName === "/Bell" 
-                            ? "text-primary font-medium" 
-                            : "text-gray-500 hover:text-gray-800"}`}
-                > 
-                    <Bell size={26}/> 
-                    <span className="text-xs mt-1">Alerts</span>
-                </Link>
-                
-                <Link 
-                    href="/User"
-                    className={`flex flex-col items-center transition-colors duration-200 
-                        ${pathName === "/User" 
-                            ? "text-primary font-medium" 
-                            : "text-gray-500 hover:text-gray-800"}`}
-                > 
-                    <User size={26}/> 
-                    <span className="text-xs mt-1">Profile</span>
-                </Link>
-            </div>
+            <Link 
+            href="/Search"
+            className={`cursor-pointer hover:text-foreground ${pathName === "/Search" ? "text_foreground" : "text-gray-500"}`}> <Search size={30}/> </Link>
             
-            <SettingDropdown />
-        </nav>
-    )
+            <AddPost user={user} children={<StickyNote size={30} className='text-gray-500 cursor-pointer hover:text-foreground'/>}/>
+            {/* <Link 
+            href="/StickyNote"
+            className={`cursor-pointer hover:text-foreground ${pathName === "/StickyNote" ? "text_foreground" : "text-gray-500"}`}>  </Link> */}
+            
+            <Link 
+            href="/Bell"
+            className={`cursor-pointer hover:text-foreground ${pathName === "/Bell" ? "text_foreground" : "text-gray-500"}`}> <Bell size={30}/> </Link>
+            
+            <Link 
+            href="/User"
+            className={`cursor-pointer hover:text-foreground ${pathName === "/User" ? "text_foreground" : "text-gray-500"}`}> <User size={30}/> </Link>
+            
+            
+            
+        </div>
+        <SettingDropdown />
+
+    </nav>
+  )
 }
