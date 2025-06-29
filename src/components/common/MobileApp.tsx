@@ -3,11 +3,12 @@ import { HomeIcon, MenuIcon, Plus, Search, User } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import AddPost from "../posts/AddPost";
 import { User as SupabaseUser } from "@supabase/supabase-js";
 import { SettingDropdown } from "./SettingDropdown";
 import NotificationBadge from "../notifications/NotificationBadge";
+import { createClient } from "@/lib/supabase/supabaseClient";
 
 export default function MobileApp({ user }: { user: SupabaseUser }) {
   if (!user) {
@@ -16,6 +17,29 @@ export default function MobileApp({ user }: { user: SupabaseUser }) {
   }
 
   const pathName = usePathname();
+  const [username, setUsername] = useState<string>("");
+  const supabase = createClient(undefined);
+
+  useEffect(() => {
+    const fetchUsername = async () => {
+      if (user?.user_metadata?.username) {
+        setUsername(user.user_metadata.username);
+      } else {
+        // Fallback: fetch from database
+        const { data, error } = await supabase
+          .from("users")
+          .select("username")
+          .eq("id", user.id)
+          .single();
+
+        if (data && !error) {
+          setUsername(data.username);
+        }
+      }
+    };
+
+    fetchUsername();
+  }, [user]);
 
   return (
     <div className="md:hidden">
@@ -72,9 +96,9 @@ export default function MobileApp({ user }: { user: SupabaseUser }) {
           </div>
 
           <Link
-            href="/User"
+            href={username ? `/${username}` : "/"}
             className={`flex flex-col items-center ${
-              pathName === "/User" ? "text-primary" : "text-gray-500"
+              pathName === `/${username}` ? "text-primary" : "text-gray-500"
             }`}
           >
             <User size={24} />
