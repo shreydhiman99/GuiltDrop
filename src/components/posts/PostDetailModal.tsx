@@ -40,6 +40,19 @@ export default function PostDetailModal({
     post.reply_count += 1; // Optimistically update reply_count
   };
 
+  // Function to get the correct image URL
+  const getImageUrl = (imageUrl: string | null) => {
+    if (!imageUrl) return "";
+    
+    // If it's already a full URL (starts with http), return as is
+    if (imageUrl.startsWith('http')) {
+      return imageUrl;
+    }
+    
+    // Otherwise, treat it as a storage path and use getS3Url
+    return getS3Url(imageUrl);
+  };
+
   // Calculate dynamic widths based on image aspect ratio
   const calculateLayout = () => {
     if (!post.image || !imageDimensions) {
@@ -265,7 +278,7 @@ export default function PostDetailModal({
               >
                 <UserAvatar
                   name={post.name}
-                  image={post.profile_image ? getS3Url(post.profile_image) : ""}
+                  image={post.profile_image ? getImageUrl(post.profile_image) : ""}
                 />
                 <div>
                   <p className="font-bold text-gray-800">{post.username}</p>

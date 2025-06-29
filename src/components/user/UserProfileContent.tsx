@@ -21,9 +21,39 @@ export default function UserProfileContent({
   const [loading, setLoading] = useState(false);
   const supabase = createClient(undefined);
 
+  // Function to get the correct image URL
+  const getImageUrl = (imageUrl: string | null) => {
+    if (!imageUrl) return "";
+
+    // If it's already a full URL (starts with http), return as is
+    if (imageUrl.startsWith("http")) {
+      return imageUrl;
+    }
+
+    // Otherwise, treat it as a storage path and use getS3Url
+    return getS3Url(imageUrl);
+  };
+
+  // Process the user data to ensure profile image URL is correct
+  const processedUser = {
+    ...user,
+    profile_image: user.profile_image ? getImageUrl(user.profile_image) : null,
+  };
+
   // Debug: Log the data
   useEffect(() => {
-    console.log("UserProfileContent - User:", user);
+    console.log("UserProfileContent - Original User:", user);
+    console.log("UserProfileContent - Processed User:", processedUser);
+    console.log("UserProfileContent - Profile Image Debug:", {
+      original: user.profile_image,
+      processed: processedUser.profile_image,
+      getS3Url_result: user.profile_image
+        ? getS3Url(user.profile_image)
+        : "no image",
+      getImageUrl_result: user.profile_image
+        ? getImageUrl(user.profile_image)
+        : "no image",
+    });
     console.log("UserProfileContent - Initial Posts:", initialPosts);
     console.log("UserProfileContent - Posts length:", posts.length);
   }, [user, initialPosts, posts]);
@@ -46,7 +76,14 @@ export default function UserProfileContent({
         console.error("Error loading posts:", error.message);
       } else {
         console.log("Refreshed posts:", newPosts);
-        setPosts(newPosts || []);
+        // Process posts to fix profile image URLs
+        const processedPosts = (newPosts || []).map((post: PostType) => ({
+          ...post,
+          profile_image: post.profile_image
+            ? getImageUrl(post.profile_image)
+            : null,
+        }));
+        setPosts(processedPosts);
       }
     } catch (err) {
       console.error("Error in refreshPosts:", err);
@@ -60,12 +97,15 @@ export default function UserProfileContent({
       {/* Profile Header */}
       <div className="flex flex-col items-center mb-8 p-6 bg-gradient-to-b from-gray-50 to-white rounded-xl shadow-sm">
         <UserAvatar
-          name={user.name}
-          image={user.profile_image ? getS3Url(user.profile_image) : ""}
+          name={processedUser.name}
+          image={processedUser.profile_image || ""}
           width={8}
           height={8}
         />
-        <p className="text-gray-600">@{user.username}</p>
+        <h1 className="text-xl font-bold text-gray-800 mt-3">
+          {processedUser.name}
+        </h1>
+        <p className="text-gray-600">@{processedUser.username}</p>
         <div className="flex items-center space-x-6 mt-4 text-sm text-gray-500">
           <span>{posts.length} posts</span>
         </div>
@@ -74,10 +114,15 @@ export default function UserProfileContent({
       {/* Posts Grid */}
       {posts.length > 0 ? (
         <div className="grid grid-cols-3 gap-1 md:gap-2">
-          {posts.map((post) => (
+          {posts.map((post: PostType) => (
             <PostGridItem
               key={post.post_id}
-              post={post}
+              post={{
+                ...post,
+                profile_image: post.profile_image
+                  ? getImageUrl(post.profile_image)
+                  : "",
+              }}
               userId={currentUserId || ""}
             />
           ))}
@@ -89,7 +134,7 @@ export default function UserProfileContent({
           </div>
           <p className="text-lg text-gray-600 mb-2">No posts yet</p>
           <p className="text-sm text-gray-500">
-            @{user.username} hasn't shared anything yet
+            @{processedUser.username} hasn't shared anything yet
           </p>
           <button
             onClick={refreshPosts}

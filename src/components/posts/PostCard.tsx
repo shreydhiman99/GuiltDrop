@@ -31,6 +31,19 @@ export default function PostCard({
     post.reply_count += 1; // Optimistically update reply_count
   };
 
+  // Debug logging for profile image
+  console.log("PostCard Debug - Post data:", {
+    username: post.username,
+    name: post.name,
+    profile_image: post.profile_image,
+    profile_image_type: typeof post.profile_image,
+    profile_image_length: post.profile_image?.length,
+    hasProfileImage: !!post.profile_image,
+    getS3Url_result: post.profile_image
+      ? getS3Url(post.profile_image)
+      : "no image",
+  });
+
   return (
     <div
       className={`w-full bg-gradient-to-b from-gray-100 to-gray-200 mt-4 rounded-2xl p-4 shadow-lg ${
