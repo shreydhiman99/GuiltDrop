@@ -102,9 +102,9 @@ export default function UserProfileContent({
           width={8}
           height={8}
         />
-        <h1 className="text-xl font-bold text-gray-800 mt-3">
+        {/* <h1 className="text-xl font-bold text-gray-800 mt-3">
           {processedUser.name}
-        </h1>
+        </h1> */}
         <p className="text-gray-600">@{processedUser.username}</p>
         <div className="flex items-center space-x-6 mt-4 text-sm text-gray-500">
           <span>{posts.length} posts</span>
