@@ -65,20 +65,20 @@ export default function UserProfileContent({
           width={8}
           height={8}
         />
-        <h1 className="text-2xl font-bold mt-4 text-gray-800">{user.name}</h1>
+        {/* <h1 className="text-2xl font-bold mt-4 text-gray-800">{user.name}</h1> */}
         <p className="text-gray-600">@{user.username}</p>
         <div className="flex items-center space-x-6 mt-4 text-sm text-gray-500">
           <span>{posts.length} posts</span>
         </div>
 
         {/* Debug info - Remove this in production */}
-        <div className="mt-4 p-2 bg-gray-100 rounded text-xs text-gray-600">
+        {/* <div className="mt-4 p-2 bg-gray-100 rounded text-xs text-gray-600">
           <p>Debug Info:</p>
           <p>User ID: {user.id}</p>
           <p>Username: {user.username}</p>
           <p>Posts: {posts.length}</p>
           <p>Current User ID: {currentUserId}</p>
-        </div>
+        </div> */}
       </div>
 
       {/* Posts Grid */}
