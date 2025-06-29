@@ -4,6 +4,7 @@ import { formatDistanceToNow } from 'date-fns/formatDistanceToNow'
 import { Heart, MessageCircle, UserPlus } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
+// Add the missing type definition
 type NotificationType = {
   id: number
   created_at: string
@@ -31,13 +32,15 @@ export default function NotificationItem({ notification, onRead }: {
         return {
           icon: <Heart className="text-red-500" size={18} />,
           message: <span><strong>{notification.user.username}</strong> liked your post</span>,
-          link: notification.post_id ? `/post/${notification.post_id}` : '/'
+          // Always go to home instead of post detail
+          link: '/'
         }
       case 2:
         return {
           icon: <MessageCircle className="text-blue-500" size={18} />,
           message: <span><strong>{notification.user.username}</strong> commented on your post</span>,
-          link: notification.post_id ? `/post/${notification.post_id}` : '/'
+          // Always go to home instead of post detail
+          link: '/'
         }
       case 3:
         return {
@@ -81,7 +84,7 @@ export default function NotificationItem({ notification, onRead }: {
       {notification.post_id && (
         <div className="flex-shrink-0 ml-2 self-center">
           <span className="text-xs font-medium text-primary px-2 py-1 rounded-full bg-primary/10">
-            View
+            View Feed
           </span>
         </div>
       )}

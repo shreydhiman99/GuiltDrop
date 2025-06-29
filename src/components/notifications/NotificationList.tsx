@@ -106,12 +106,12 @@ export default function NotificationList({ userId }: { userId: string }) {
         case 1:
           title = `${notification.user.username} liked your post`
           body = `They liked your post`
-          url = notification.post_id ? `/post/${notification.post_id}` : '/'
+          url = '/' // Always redirect to home
           break
         case 2:
           title = `${notification.user.username} commented on your post`
           body = `They left a comment on your post`
-          url = notification.post_id ? `/post/${notification.post_id}` : '/'
+          url = '/' // Always redirect to home
           break
         case 3:
           title = `${notification.user.username} started following you`
