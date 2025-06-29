@@ -1,14 +1,15 @@
-"use client"
+"use client";
 
-import React, { useState } from 'react'
-import UserAvatar from '../common/UserAvatar'
-import { Bookmark, Send, ChevronDown, ChevronUp } from 'lucide-react'
-import Image from 'next/image'
-import { formatDate, getS3Url } from '@/lib/healper'
-import PostLike from './PostLike'
-import PostComments from './PostComments'
-import ShowComments from './ShowComments'
-import ReplyCount from './ReplyCount'
+import React, { useState } from "react";
+import UserAvatar from "../common/UserAvatar";
+import { Bookmark, Send, ChevronDown, ChevronUp } from "lucide-react";
+import Image from "next/image";
+import { formatDate, getS3Url } from "@/lib/healper";
+import PostLike from "./PostLike";
+import PostComments from "./PostComments";
+import ShowComments from "./ShowComments";
+import ReplyCount from "./ReplyCount";
+import Link from "next/link";
 
 // Update the component props type definition at the top of your file
 type PostCardProps = {
@@ -16,31 +17,46 @@ type PostCardProps = {
   userId: string;
   isDetailView?: boolean; // Add this optional prop
   key?: React.Key;
-}
+};
 
 // Then update your component definition
-export default function PostCard({ post, userId, isDetailView = false }: PostCardProps) {
-  const [showComments, setShowComments] = useState(false) // State to toggle comments visibility
+export default function PostCard({
+  post,
+  userId,
+  isDetailView = false,
+}: PostCardProps) {
+  const [showComments, setShowComments] = useState(false); // State to toggle comments visibility
 
   const handleCommentAdded = () => {
-    post.reply_count += 1 // Optimistically update reply_count
-  }
+    post.reply_count += 1; // Optimistically update reply_count
+  };
 
   return (
-    <div className={`w-full bg-gradient-to-b from-gray-100 to-gray-200 mt-4 rounded-2xl p-4 shadow-lg ${isDetailView ? 'border-2 border-primary' : ''}`}>
+    <div
+      className={`w-full bg-gradient-to-b from-gray-100 to-gray-200 mt-4 rounded-2xl p-4 shadow-lg ${
+        isDetailView ? "border-2 border-primary" : ""
+      }`}
+    >
       {/* Header */}
       <div className="flex justify-between items-center mb-4">
         <div className="flex space-x-2">
-          <UserAvatar
-            name={post.name}
-            image={post.profile_image ? getS3Url(post.profile_image) : ''}
-          />
-          <div>
-            <div className="flex flex-col">
-              <p className="font-bold text-gray-800">{post.username}</p>
-              <p className="text-sm text-gray-500">{formatDate(post.created_at)}</p>
+          <Link
+            href={`/${post.username}`}
+            className="flex space-x-2 hover:opacity-80 transition-opacity"
+          >
+            <UserAvatar
+              name={post.name}
+              image={post.profile_image ? getS3Url(post.profile_image) : ""}
+            />
+            <div>
+              <div className="flex flex-col">
+                <p className="font-bold text-gray-800">{post.username}</p>
+                <p className="text-sm text-gray-500">
+                  {formatDate(post.created_at)}
+                </p>
+              </div>
             </div>
-          </div>
+          </Link>
         </div>
       </div>
 
@@ -115,5 +131,5 @@ export default function PostCard({ post, userId, isDetailView = false }: PostCar
         </div>
       </div>
     </div>
-  )
+  );
 }
