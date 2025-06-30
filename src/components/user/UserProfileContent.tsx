@@ -76,6 +76,11 @@ export default function UserProfileContent({
         console.error("Error loading posts:", error.message);
       } else {
         console.log("Refreshed posts:", newPosts);
+        console.log(
+          "Posts with videos in refresh:",
+          newPosts?.filter((post: PostType) => post.video)
+        );
+
         // Process posts to fix profile image URLs
         const processedPosts = (newPosts || []).map((post: PostType) => ({
           ...post,

@@ -13,14 +13,14 @@ export default function UserAvatar({
   height?: number;
 }) {
   // Debug logging for UserAvatar
-  console.log("UserAvatar Debug:", {
-    name,
-    image,
-    hasImage: !!image,
-    imageLength: image?.length,
-    width,
-    height,
-  });
+  // console.log("UserAvatar Debug:", {
+  //   name,
+  //   image,
+  //   hasImage: !!image,
+  //   imageLength: image?.length,
+  //   width,
+  //   height,
+  // });
 
   return (
     <Avatar style={{ width: `${width}rem`, height: `${height}rem` }}>

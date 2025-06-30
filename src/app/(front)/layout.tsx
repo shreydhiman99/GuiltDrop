@@ -1,4 +1,5 @@
 import AppNav from "@/components/common/AppNav";
+import LoadingScreen from "@/components/common/LoadingScreen";
 import MobileApp from "@/components/common/MobileApp";
 import {createClient} from "@/lib/supabase/supabaseServer"
 import {cookies} from "next/headers"
@@ -14,6 +15,7 @@ export default async function FrontLayout({
     const {data} = await (await supabase).auth.getSession()
     return (
       <div className="p-2 md:container relative h-screen">
+        <LoadingScreen />
         <MobileApp user={data.session?.user!} />
         <AppNav user={data.session?.user!}/>
         <div className="flex flex-col items-center h-full">

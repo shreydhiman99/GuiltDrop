@@ -1,23 +1,23 @@
 type PostPayloadType = {
     content: string;
+    user_id: string;
     image?: string;
-    user_id: string; 
+    video?: string;
 };
 
 type PostType = {
-    comments: CommentType[]; // Array of comments associated with the post
-    post_id: number;
+    post_id: number;         // Maps to p.id from function
     user_id: string;
     content: string;
-    image?: string;
-    name: string;
-    username: string;
-    email: string;
-    profile_image: string;
-    reply_count: number; // Number of comments on the post
-    likes_count: number; // Number of likes on the post
+    image?: string | null;
+    video?: string | null;
     created_at: string;
-    liked: boolean; // Whether the post is liked by the current user
+    likes_count: number;
+    reply_count: number;
+    username: string;
+    name: string;
+    profile_image?: string | null;
+    liked?: boolean;
 };
 
 type CommentType = {

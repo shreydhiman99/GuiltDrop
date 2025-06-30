@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { ToastContainer } from "react-toastify";
+import { Suspense } from "react";
+import RouteChangeProvider from "@/components/common/RouteChangeProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -85,8 +87,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ToastContainer />
-        {children}
+        <Suspense fallback={<div className="w-full h-screen flex items-center justify-center">Loading...</div>}>
+          <RouteChangeProvider>
+            <ToastContainer />
+            {children}
+          </RouteChangeProvider>
+        </Suspense>
       </body>
     </html>
   );

@@ -10,6 +10,7 @@ import PostComments from "./PostComments";
 import ShowComments from "./ShowComments";
 import ReplyCount from "./ReplyCount";
 import Link from "next/link";
+import VideoPlayer from "../common/VideoPlayer";
 
 // Update the component props type definition at the top of your file
 type PostCardProps = {
@@ -31,18 +32,7 @@ export default function PostCard({
     post.reply_count += 1; // Optimistically update reply_count
   };
 
-  // Debug logging for profile image
-  console.log("PostCard Debug - Post data:", {
-    username: post.username,
-    name: post.name,
-    profile_image: post.profile_image,
-    profile_image_type: typeof post.profile_image,
-    profile_image_length: post.profile_image?.length,
-    hasProfileImage: !!post.profile_image,
-    getS3Url_result: post.profile_image
-      ? getS3Url(post.profile_image)
-      : "no image",
-  });
+ 
 
   return (
     <div
@@ -88,6 +78,19 @@ export default function PostCard({
           </div>
         </div>
       )}
+
+      {/* Video content */}
+      {post.video && (
+        <div className="flex justify-center my-3">
+          <div className="w-full max-w-2xl rounded-lg overflow-hidden shadow-md">
+            <VideoPlayer
+              src={getS3Url(post.video)}
+              className="w-full"
+            />
+          </div>
+        </div>
+      )}
+
       <p className="p-2 text-gray-700">{post.content}</p>
 
       {/* If in detail view, you might want to show more content or comments */}

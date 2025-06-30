@@ -16,6 +16,7 @@ import ReplyCount from "./ReplyCount";
 import ShowComments from "./ShowComments";
 import Link from "next/link";
 import { ChevronDown, ChevronUp } from "lucide-react";
+import VideoPlayer from "../common/VideoPlayer";
 
 type PostDetailModalProps = {
   post: PostType;
@@ -143,7 +144,7 @@ export default function PostDetailModal({
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="!max-w-[95vw] !w-[95vw] max-h-[90vh] overflow-hidden p-0 sm:!max-w-[95vw] md:!max-w-[95vw] lg:!max-w-[95vw]">
         <div className="flex flex-col lg:flex-row h-full min-h-[80vh]">
-          {/* Left side - Image or Text Content */}
+          {/* Left side - Image, Video, or Text Content */}
           <div
             className="flex items-center justify-center"
             style={{
@@ -166,6 +167,14 @@ export default function PostDetailModal({
                   className="object-contain"
                   unoptimized
                   onLoad={() => setImageLoaded(true)}
+                />
+              </div>
+            ) : post.video ? (
+              // Video post display
+              <div className="relative w-full h-full min-h-[400px] lg:min-h-[700px] bg-black flex items-center justify-center">
+                <VideoPlayer 
+                  src={getS3Url(post.video)}
+                  className="w-full h-full"
                 />
               </div>
             ) : (

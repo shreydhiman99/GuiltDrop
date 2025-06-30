@@ -132,3 +132,13 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+/* Add this to the end of your globals.css file */
+@keyframes orbit {
+  from {
+    transform: rotate(0deg) translateX(60px) rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg) translateX(60px) rotate(-360deg);
+  }
+}
